@@ -20,7 +20,16 @@ namespace Lenkie_Assessment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBooks()
         {
-            return Ok(await _libraryService.GetAllBooks());
+            var response = await _libraryService.GetAllBooks();
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }  
         }
 
         [HttpGet]
@@ -33,35 +42,76 @@ namespace Lenkie_Assessment.Controllers
         [HttpPost]
         public async Task<IActionResult> ReserveBook(Guid customerId, Guid bookId)
         {
-            await _libraryService.ReserveBook(customerId, bookId);
-            return Ok();
+            var response = await _libraryService.ReserveBook(customerId, bookId);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> BorrowBook(Guid customerId, Guid bookId, DateTime borrowedUntil)
         {
-            await _libraryService.BorrowBook(customerId, bookId, borrowedUntil);
-            return Ok();
+            var response = await _libraryService.BorrowBook(customerId, bookId, borrowedUntil);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> ReturnBook(Guid bookId)
         {
-            await _libraryService.ReturnBook(bookId);
-            return Ok();
+            var response = await _libraryService.ReturnBook(bookId);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> NotifyWhenAvailable(Guid customerId, Guid bookId)
         {
-            await _libraryService.NotifyWhenAvailable(customerId, bookId);
-            return Ok();
+            var response = await _libraryService.NotifyWhenAvailable(customerId, bookId);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
         
         [HttpGet]
         public async Task<IActionResult> NotificationsForAvailableBooksByCustomerId(Guid customerId)
         {
-            return Ok(await _libraryService.NotificationsForAvailableBooksByCustomerId(customerId));
+            var response = await _libraryService.NotificationsForAvailableBooksByCustomerId(customerId);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
     }
 }

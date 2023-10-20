@@ -21,13 +21,31 @@ namespace Lenkie_Assessment.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUserAccount(SignUpModel model)
         {
-            return Ok(await _customerService.CreateUserAccount(model));
+            var response = await _customerService.CreateUserAccount(model);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> UserLogin(LoginModel model)
         {
-            return Ok(await _customerService.UserLogin(model));
+            var response = await _customerService.UserLogin(model);
+
+            try
+            {
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest(response);
+            }
         }
     }
 }

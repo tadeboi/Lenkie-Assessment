@@ -6,10 +6,10 @@ namespace Lenkie_Assessment.Services.Interfaces
     {
         Task<Book> GetBook(Guid id);
         Task<IEnumerable<Book>> GetAllBooks();
-        Task ReserveBook(Guid customerId, Guid bookId);
-        Task BorrowBook(Guid customerId, Guid bookId, DateTime borrowedUntil);
-        Task ReturnBook(Guid bookId);
-        Task NotifyWhenAvailable(Guid customerId, Guid bookId);
+        Task<string> ReserveBook(Guid customerId, Guid bookId);
+        Task<string> BorrowBook(Guid customerId, Guid bookId, DateTime borrowedUntil);
+        Task<string> ReturnBook(Guid bookId);
+        Task<string> NotifyWhenAvailable(Guid customerId, Guid bookId);
         Task<IEnumerable<Notification>> NotificationsForAvailableBooksByCustomerId(Guid customerId);
     }
 }

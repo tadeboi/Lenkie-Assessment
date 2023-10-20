@@ -26,38 +26,85 @@ namespace Lenkie_Assessment.Repositories
             return await _context.Books.ToListAsync();
         }
 
-        public async Task ReserveBook(Guid bookId, Guid customerId, DateTime reservedUntil)
+        public async Task<string> ReserveBook(Guid bookId, Guid customerId, DateTime reservedUntil)
         {
-            var book = await _context.Books.FindAsync(bookId);
-            book.IsReserved = true;
-            book.ReservedUntil = reservedUntil;
-            book.ReservedByCustomerId = customerId;
+            try
+            {
+                var book = await _context.Books.FindAsync(bookId);
+                if (book != null)
+                {
+                    book.IsReserved = true;
+                    book.ReservedUntil = reservedUntil;
+                    book.ReservedByCustomerId = customerId;
 
-            await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("Book Not Found");
+                }
+                return "Book Reserved Succesfuly";
+            }
+            catch (Exception ex)
+            {
+
+                return $"Book Reservation Failed {ex.Message}";
+            }
         }
 
-        public async Task BorrowBook(Guid bookId, Guid customerId, DateTime borrowedUntil)
+        public async Task<string> BorrowBook(Guid bookId, Guid customerId, DateTime borrowedUntil)
         {
-            var book = await _context.Books.FindAsync(bookId);
+            try
+            {
+                var book = await _context.Books.FindAsync(bookId);
+                if (book != null)
+                {
+                    book.IsReserved = false;
+                    book.ReservedUntil = null;
+                    book.ReservedByCustomerId = null;
 
-            book.IsReserved = false;
-            book.ReservedUntil = null;
-            book.ReservedByCustomerId = null;
+                    book.BorrowedByCustomerId = customerId;
+                    book.BorrowedUntil = borrowedUntil;
 
-            book.BorrowedByCustomerId = customerId;
-            book.BorrowedUntil = borrowedUntil;
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("Book Not Found");
+                }
+                return "Book Borrowed Succesfuly";
+            }
+            catch (Exception ex)
+            {
 
-            await _context.SaveChangesAsync();
+                return $"Book Borrow Failed {ex.Message}";
+            }
         }
 
-        public async Task ReturnBook(Guid bookId)
+        public async Task<string> ReturnBook(Guid bookId)
         {
-            var book = await _context.Books.FindAsync(bookId);
+            try
+            {
+                var book = await _context.Books.FindAsync(bookId);
 
-            book.BorrowedByCustomerId = null;
-            book.BorrowedUntil = null;
+                if (book != null)
+                {
+                    book.BorrowedByCustomerId = null;
+                    book.BorrowedUntil = null;
 
-            await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("Book Not Found");
+                }
+                return "Book Returned Succesfuly";
+            }
+            catch (Exception ex)
+            {
+
+                return $"Book Return Failed {ex.Message}";
+            }
         }
 
     }

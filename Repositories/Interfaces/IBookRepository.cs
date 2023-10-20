@@ -6,8 +6,8 @@ namespace Lenkie_Assessment.Repositories.Interfaces
     {
         Task<Book> GetBook(Guid id);
         Task<IEnumerable<Book>> GetBooks();
-        Task ReserveBook(Guid bookId, Guid customerId, DateTime reservedUntil);
-        Task BorrowBook(Guid bookId, Guid customerId, DateTime borrowedUntil);
-        Task ReturnBook(Guid bookId);
+        Task<string> ReserveBook(Guid bookId, Guid customerId, DateTime reservedUntil);
+        Task<string> BorrowBook(Guid bookId, Guid customerId, DateTime borrowedUntil);
+        Task<string> ReturnBook(Guid bookId);
     }
 }

@@ -4,7 +4,7 @@ namespace Lenkie_Assessment.Repositories.Interfaces
 {
     public interface INotificationRepository
     {
-        Task AddNotification(Notification notification);
+        Task<string> AddNotification(Notification notification);
         Task<IEnumerable<Notification>> GetNotificationsForBook(Guid bookId);
         Task IsAvailable(Guid bookId);
         Task NotCurrentlyAvailable(Guid bookId);

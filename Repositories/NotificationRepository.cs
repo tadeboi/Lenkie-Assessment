@@ -14,10 +14,19 @@ namespace Lenkie_Assessment.Repositories
             _context = context;
         }
 
-        public async Task AddNotification(Notification notification)
+        public async Task<string> AddNotification(Notification notification)
         {
-            _context.Notifications.Add(notification);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Notifications.Add(notification);
+                await _context.SaveChangesAsync();
+                return "We would Notify you when the Book is Available";
+            }
+            catch (Exception ex)
+            {
+
+                return $"Unable to add book for Notification: {ex.Message}";
+            }
         }
 
         public async Task<IEnumerable<Notification>> GetNotificationsForBook(Guid bookId)

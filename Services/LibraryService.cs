@@ -27,7 +27,7 @@ namespace Lenkie_Assessment.Services
             return await _bookRepository.GetBooks();
         }
 
-        public async Task ReserveBook(Guid customerId, Guid bookId)
+        public async Task<string> ReserveBook(Guid customerId, Guid bookId)
         {
             var book = await _bookRepository.GetBook(bookId);
 
@@ -40,10 +40,11 @@ namespace Lenkie_Assessment.Services
                 throw new Exception($"Book is borrowed until {returnDate}");
             }
 
-            await _bookRepository.ReserveBook(bookId, customerId, DateTime.Now.AddHours(24));
+            var result = await _bookRepository.ReserveBook(bookId, customerId, DateTime.Now.AddHours(24));
+            return result;
         }
 
-        public async Task BorrowBook(Guid customerId, Guid bookId, DateTime borrowedUntil)
+        public async Task<string> BorrowBook(Guid customerId, Guid bookId, DateTime borrowedUntil)
         {
             var book = await _bookRepository.GetBook(bookId);
 
@@ -54,17 +55,21 @@ namespace Lenkie_Assessment.Services
                 throw new Exception("Book is already reserved by someone else");
             }
 
-            await _bookRepository.BorrowBook(bookId, customerId, borrowedUntil);
+            var result = await _bookRepository.BorrowBook(bookId, customerId, borrowedUntil);
             await _notificationRepository.NotCurrentlyAvailable(bookId);
+
+            return result;
         }
 
-        public async Task ReturnBook(Guid bookId)
+        public async Task<string> ReturnBook(Guid bookId)
         {
-            await _bookRepository.ReturnBook(bookId);
+            var result = await _bookRepository.ReturnBook(bookId);
             await _notificationRepository.IsAvailable(bookId);
+
+            return result;
         }
 
-        public async Task NotifyWhenAvailable(Guid customerId, Guid bookId)
+        public async Task<string> NotifyWhenAvailable(Guid customerId, Guid bookId)
         {
             var notification = new Notification()
             {
@@ -73,7 +78,9 @@ namespace Lenkie_Assessment.Services
                 IsAvailable = false
             };
 
-            await _notificationRepository.AddNotification(notification);
+            var result = await _notificationRepository.AddNotification(notification);
+
+            return result;
         }
 
         public async Task<IEnumerable<Notification>> NotificationsForAvailableBooksByCustomerId(Guid customerId)
