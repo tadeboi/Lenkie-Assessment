@@ -1,7 +1,7 @@
 # Lenkie-Assessment
 Lenkie Library Assessment Solution
 
-- A Simple Online Library Implementation
+- A Simple Monolithic Online Library Implementation
 - Built with .NET Core 6 and MS SQL Server
 
 **Steps to Run**
